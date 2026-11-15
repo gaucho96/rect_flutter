@@ -10,8 +10,8 @@ class RectPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    
     // 1. Background
-
     final backgroundPaint = Paint()
       ..color = const Color.fromARGB(255, 255, 255, 255)
       ..style = PaintingStyle.fill;
@@ -22,7 +22,6 @@ class RectPainter extends CustomPainter {
     );
 
     // 2. Grid
-
     final gridPaint = Paint()
       ..color = const Color.fromARGB(255, 255, 0, 0)
       ..strokeWidth = 1.0
@@ -32,36 +31,40 @@ class RectPainter extends CustomPainter {
     final centerX = clientWidth / 2;
     final centerY = clienHeigth / 2;
 
-    final verticalLineCount =
-        (size.width / gridSpacing).ceil();
+    final minVerticalIndex =
+        (-centerX / gridSpacing).ceil();
 
-    final horizontalLineCount =
-        (size.height / gridSpacing).ceil();
+    final maxVerticalIndex =
+        ((clientWidth - centerX) / gridSpacing).floor();
+
+    final minHorizontalIndex =
+        (-centerY / gridSpacing).ceil();
+
+    final maxHorizontalIndex =
+        ((clienHeigth - centerY) / gridSpacing).floor();
 
     // Vertical lines
-    for (var i = -verticalLineCount; i <= verticalLineCount; i++) {
-      
-      final x = centerX + (i * gridSpacing);
+    for (var i = minVerticalIndex; i <= maxVerticalIndex; i++) {
+      final x = centerX + i * gridSpacing;
       final [from, to] = <Offset>[Offset(x, 0), Offset(x, clientWidth)];
+
       canvas.drawLine(
         from,
         to,
         gridPaint,
       );
-
     }
 
-    //  Horizontal lines
-    for (var i = -horizontalLineCount; i <= horizontalLineCount; i++) {
-      
-      final y = centerY + (i * gridSpacing);
+    // Horizontal lines
+    for (var i = minHorizontalIndex; i <= maxHorizontalIndex; i++) {
+      final y = centerY + i * gridSpacing;
       final [from, to] = <Offset>[Offset(0, y), Offset(clientWidth, y)];
+
       canvas.drawLine(
         from,
         to,
         gridPaint,
       );
-      
     }
 
     // 3. Coordinate axes
@@ -72,19 +75,19 @@ class RectPainter extends CustomPainter {
 
     canvas.drawLine(
       Offset(centerX, 0),
-      Offset(centerX, size.height),
+      Offset(centerX, clienHeigth),
       axisPaint,
     );
 
     canvas.drawLine(
       Offset(0, centerY),
-      Offset(size.width, centerY),
+      Offset(clientWidth, centerY),
       axisPaint,
     );
   }
 
-@override
-bool shouldRepaint(covariant RectPainter oldDelegate) {
-  return gridSpacing != oldDelegate.gridSpacing;
-}
+  @override
+  bool shouldRepaint(covariant RectPainter oldDelegate) {
+    return gridSpacing != oldDelegate.gridSpacing;
+  }
 }
