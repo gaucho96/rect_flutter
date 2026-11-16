@@ -1,12 +1,15 @@
 
 import 'package:flutter/widgets.dart';
+import 'rendering/grid_rendering.dart';
 
 class RectPainter extends CustomPainter {
   final double gridSpacing;
 
   const RectPainter({required this.gridSpacing});
-
-  static const Color _axisColor = Color.fromARGB(255, 0, 110, 255);
+  
+  static const bool showXYOrigin = true;
+  static const Color _axisColor = Color.fromARGB(255, 255, 0, 0);
+  static const Color _gridColor = Color.fromARGB(255, 0, 0, 0);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -22,68 +25,39 @@ class RectPainter extends CustomPainter {
     );
 
     // 2. Grid
-    final gridPaint = Paint()
-      ..color = const Color.fromARGB(255, 255, 0, 0)
-      ..strokeWidth = 1.0
-      ..style = PaintingStyle.stroke;
+    drawGrid(
+      canvas: canvas,
+      size: size,
+      spacing: gridSpacing,
+      color: _gridColor,
+    );
+
 
     final [clientWidth, clienHeigth] = <double>[size.width, size.height];
-    final centerX = clientWidth / 2;
-    final centerY = clienHeigth / 2;
+      final centerX = clientWidth / 2, centerY = clienHeigth / 2;
 
-    final minVerticalIndex =
-        (-centerX / gridSpacing).ceil();
+    if (showXYOrigin) {
 
-    final maxVerticalIndex =
-        ((clientWidth - centerX) / gridSpacing).floor();
-
-    final minHorizontalIndex =
-        (-centerY / gridSpacing).ceil();
-
-    final maxHorizontalIndex =
-        ((clienHeigth - centerY) / gridSpacing).floor();
-
-    // Vertical lines
-    for (var i = minVerticalIndex; i <= maxVerticalIndex; i++) {
-      final x = centerX + i * gridSpacing;
-      final [from, to] = <Offset>[Offset(x, 0), Offset(x, clientWidth)];
+      // 3. Coordinate axes
+      final axisPaint = Paint()
+        ..color = _axisColor
+        ..strokeWidth = 2
+        ..style = PaintingStyle.stroke;
 
       canvas.drawLine(
-        from,
-        to,
-        gridPaint,
+        Offset(centerX, 0),
+        Offset(centerX, clienHeigth),
+        axisPaint,
       );
-    }
-
-    // Horizontal lines
-    for (var i = minHorizontalIndex; i <= maxHorizontalIndex; i++) {
-      final y = centerY + i * gridSpacing;
-      final [from, to] = <Offset>[Offset(0, y), Offset(clientWidth, y)];
 
       canvas.drawLine(
-        from,
-        to,
-        gridPaint,
+        Offset(0, centerY),
+        Offset(clientWidth, centerY),
+        axisPaint,
       );
+
     }
 
-    // 3. Coordinate axes
-    final axisPaint = Paint()
-      ..color = _axisColor
-      ..strokeWidth = 1.5
-      ..style = PaintingStyle.stroke;
-
-    canvas.drawLine(
-      Offset(centerX, 0),
-      Offset(centerX, clienHeigth),
-      axisPaint,
-    );
-
-    canvas.drawLine(
-      Offset(0, centerY),
-      Offset(clientWidth, centerY),
-      axisPaint,
-    );
   }
 
   @override
