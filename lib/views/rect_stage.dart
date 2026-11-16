@@ -7,6 +7,10 @@ class RectStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CustomPaint(painter: RectPainter(gridSpacing: 40));
+    return const CustomPaint(painter: RectPainter(
+        gridConfig: (
+            spacing: 40.0,
+          ),
+    ));
   }
 }
