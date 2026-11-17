@@ -1,8 +1,8 @@
 
 import 'package:flutter/widgets.dart';
-import './grid.config.dart';
-import './rendering/grid_rendering.dart';
-import '../domain/grid.dart';
+import 'grid.config.dart';
+import 'grid_renderer.dart' show drawGrid;
+import '../../../domain/grid.dart';
 
 class Grid extends CustomPainter {
   final GridConfig gridConfig;
@@ -45,7 +45,6 @@ class Grid extends CustomPainter {
       );
     
     // 4. Coordinate axes
-
     final axisPaint = Paint()
       ..color = gridAxisColor
       ..strokeWidth = 1.5
@@ -66,7 +65,7 @@ class Grid extends CustomPainter {
       axisPaint,
     );
 
-    /* end_if(gridConfig.hidden) */}
+    }
   }
 
   @override

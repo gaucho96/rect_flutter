@@ -1,6 +1,6 @@
 
 import 'package:flutter/widgets.dart';
-import 'painter.dart';
+import 'layers/grid/grid_layer.dart';
 
 class Stage extends StatelessWidget {
   const Stage({super.key});

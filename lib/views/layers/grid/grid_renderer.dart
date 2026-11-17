@@ -1,6 +1,6 @@
 
 import 'dart:ui';
-import '../../domain/grid.dart';
+import '../../../domain/grid.dart';
 
 /// Draws precomputed grid geometry onto a Canvas.
 void drawGrid({
