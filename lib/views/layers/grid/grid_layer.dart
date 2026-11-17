@@ -1,71 +1,52 @@
 
 import 'package:flutter/widgets.dart';
 import 'grid.config.dart';
-import 'grid_renderer.dart' show drawGrid;
+import 'grid_renderer.dart';
 import '../../../domain/grid.dart';
 
 class Grid extends CustomPainter {
   final GridConfig gridConfig;
   final bool showGrid;
+  final bool showXY;
 
-  const Grid({required this.gridConfig, this.showGrid = true});
+  const Grid({required this.gridConfig, this.showGrid = true, this.showXY = true});
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 1. Background
-
+    
+    // Grid Background
     final backgroundPaint = Paint()
       ..color = gridBackgroundColor
       ..style = PaintingStyle.fill
-      ;
-
+    ;
     canvas.drawRect(
       Offset.zero & size,
       backgroundPaint,
     );
 
-    // 2. Grid geometry
-
-    final geometry = calculateGridGeometry(
-      config: gridConfig,
-      viewport: (
-        width: size.width,
-        height: size.height,
-      ),
-    );
-
     if (showGrid) {
-
-    // 3. Grid rendering
       drawGrid(
         canvas: canvas,
         size: size,
-        geometry: geometry,
-        color: gridLineColor,
+        paint: gridPaint,
+        geometry: calculateGridGeometry(
+          config: gridConfig,
+          viewport: (
+            width: size.width,
+            height: size.height,
+          ),
+        ),
       );
-    
-    // 4. Coordinate axes
-    final axisPaint = Paint()
-      ..color = gridAxisColor
-      ..strokeWidth = 1.5
-      ..style = PaintingStyle.stroke;
-
-    final centerX = size.width / 2;
-    final centerY = size.height / 2;
-
-    canvas.drawLine(
-      Offset(centerX, 0),
-      Offset(centerX, size.height),
-      axisPaint,
-    );
-
-    canvas.drawLine(
-      Offset(0, centerY),
-      Offset(size.width, centerY),
-      axisPaint,
-    );
-
     }
+
+    if (showXY) {
+      drawXY(
+        canvas: canvas, 
+        size: size, 
+        paint: axesPaint
+      );
+    }
+
   }
 
   @override

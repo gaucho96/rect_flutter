@@ -1,5 +1,4 @@
 typedef GridConfig = ({
-  bool hidden,
   double spacing,
 });
 

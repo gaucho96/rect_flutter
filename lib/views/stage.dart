@@ -2,6 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'layers/grid/grid_layer.dart';
 
+typedef Layers = Widget;
 class Stage extends StatelessWidget {
   const Stage({super.key});
 
@@ -12,14 +13,16 @@ class Stage extends StatelessWidget {
       textDirection: TextDirection.ltr,
       
       fit: StackFit.expand,
-      children: [
-        CustomPaint(painter: Grid(
-          showGrid: !false,
-          gridConfig: (
-            hidden: false,
-            spacing: 40.0,
-          ),
-        )),
+      children: <Layers>[
+        CustomPaint(
+          painter: Grid(
+            gridConfig: (
+              spacing: 40.0,
+            ),
+            showGrid: !false,
+            showXY: !false,
+          )
+        ),
       ],
     );
   }
