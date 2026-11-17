@@ -4,10 +4,11 @@ import './grid.config.dart';
 import './rendering/grid_rendering.dart';
 import '../domain/grid.dart';
 
-class RectPainter extends CustomPainter {
+class Grid extends CustomPainter {
   final GridConfig gridConfig;
+  final bool showGrid;
 
-  const RectPainter({required this.gridConfig});
+  const Grid({required this.gridConfig, this.showGrid = true});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -33,15 +34,16 @@ class RectPainter extends CustomPainter {
       ),
     );
 
+    if (showGrid) {
+
     // 3. Grid rendering
-
-    drawGrid(
-      canvas: canvas,
-      size: size,
-      geometry: geometry,
-      color: gridLineColor,
-    );
-
+      drawGrid(
+        canvas: canvas,
+        size: size,
+        geometry: geometry,
+        color: gridLineColor,
+      );
+    
     // 4. Coordinate axes
 
     final axisPaint = Paint()
@@ -63,10 +65,12 @@ class RectPainter extends CustomPainter {
       Offset(size.width, centerY),
       axisPaint,
     );
+
+    /* end_if(gridConfig.hidden) */}
   }
 
   @override
-  bool shouldRepaint(covariant RectPainter oldDelegate) {
+  bool shouldRepaint(covariant Grid oldDelegate) {
     return false;
   }
 }
