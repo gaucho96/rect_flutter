@@ -17,9 +17,9 @@ List<double> _gridLinePositions({
   required double extent,
   required double center,
   required double spacing,
-}) {
+}) 
+{
   final minIndex = (-center / spacing).ceil();
-
   final maxIndex = ((extent - center) / spacing).floor();
 
   return List<double>.unmodifiable([
@@ -32,7 +32,8 @@ List<double> _gridLinePositions({
 GridGeometry calculateGridGeometry({
   required GridConfig config,
   required ViewportSize viewport,
-}) {
+}) 
+{
 
   final centerX = viewport.width / 2, centerY = viewport.height / 2;
   final spacing = config.spacing;
